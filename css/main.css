@@ -1,0 +1,55 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    font-family: arial;
+    font-size: 14px;
+    color: #fff;
+}
+
+#wrapper {
+    width: 100%;
+}
+
+.dh-wrapper {
+    display: block;
+    margin: 40px auto;
+    width: 500px;
+    height: 200px;
+    position: relative;
+}
+
+.dh-bg {
+    background-repeat: none;
+    background-position: center center;
+    background-size: contain;
+    background-color: blue;
+    width: 100%;
+    height: 100%;
+}
+
+.dh-description {
+    position: absolute;
+	transition: all 0.15s ease 0s;
+}
+
+.dh-description-start {
+    top: 90px;
+    left: 35px;
+    opacity: 0;
+}
+
+.dh-description-end {
+    opacity: 1;
+}
+
+#web-development .dh-bg {
+
+}
+
+#web-development .dh-fg {
+
+}
