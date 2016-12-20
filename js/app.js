@@ -1,6 +1,7 @@
 (function() {
     "use strict";
     //http://hakim.se/
+        var cursorDirection = {};
     function ready(fn) {
         if (document.readyState !== "loading") {
             fn();
@@ -19,8 +20,38 @@
             setDirectionalHover(dhElements[i]);
         }
 
+        cursorDirection.prevX = 0;
+        cursorDirection.prevY = 0;
+        cursorDirection.movementX = "right";
+        cursorDirection.movementY = "up";
+        //how expensive is it to just constantly keep track of the cursor direction?
+        document.body.addEventListener("mousemove", function(e) {
+            //console.log("currentX = " + e.pageX);
+            //console.log("currentY = " + e.pageY);
+            //console.log(cursorDirection.movementX);
+            //console.log(cursorDirection.movementY);
+            if (e.pageX > cursorDirection.prevX) {
+                cursorDirection.movementX = "right";
+            } else if (e.pageX < cursorDirection.prevX) {
+                cursorDirection.movementX = "left";
+            } else {
+                cursorDirection.movementX = "none";
+            }
+            cursorDirection.prevX = e.pageX;
+            
+            if (e.pageY > cursorDirection.prevY) {
+                cursorDirection.movementY = "down";
+            } else if (e.pageY < cursorDirection.prevY) {
+                cursorDirection.movementY = "up";
+            } else {
+                cursorDirection.movementY = "none";
+            }
+            cursorDirection.prevY = e.pageY;
+        });
+
     });
 
+/*
     function setDirectionalHover(el) {
         el.addEventListener("mouseenter", function(e) {
 console.log("mouseenter");
@@ -53,7 +84,7 @@ console.log("mouseenter");
             console.log("mouseleave");
         });
     }
-
+*/
     function renderMovement(parent) {
         var offsetX = 10;
         var offsetY = 10;
@@ -68,6 +99,42 @@ console.log("mouseenter");
         console.log(top);
         console.log(left)
     }
+
+
+    function setDirectionalHover(el) {
+        el.addEventListener("mouseenter", function(e) {
+console.log("mouseenter");
+            renderDirectionMovement(el);
+        });
+        el.addEventListener("mouseleave", function() {
+            //removeClass(this, "hover");
+console.log("mouseleave");
+            renderDirectionMovement(el);
+        });
+    }
+
+    function renderDirectionMovement(el) {
+            var text = el.querySelector(".dh-description");
+            var offsetX = 15;
+            var offsetY = 15;
+            var top = text.offsetTop || 0;
+            var left = text.offsetLeft || 0;
+            if (cursorDirection.movementX === "right") {
+                left += offsetX;
+            } else if (cursorDirection.movementX === "left") {
+                left -= offsetX;
+            }
+            if (cursorDirection.movementY === "down") {
+                top += offsetY;
+            } else if (cursorDirection.movementY === "up") {
+                top -= offsetY;
+            }
+            text.style.left = left + "px";
+            text.style.top = top + "px";
+console.log(cursorDirection.movementX);
+console.log(cursorDirection.movementY);
+        }
+
 
 
     function getPointerDirection(pointer) {
